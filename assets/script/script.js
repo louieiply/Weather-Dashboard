@@ -5,6 +5,7 @@ window.onload = function() {
     var search_city = document.querySelector("#search");
     var search_input = document.querySelector("#city-search");
     var cityNdate = document.querySelector("#cityNdate");
+    var weatherImg = document.querySelector("#penal_icon");
     var temp = document.querySelector("#temp");
     var wind = document.querySelector("#wind");
     var humidity = document.querySelector("#humidity");
@@ -77,6 +78,7 @@ window.onload = function() {
         debugger;
         console.log(data);
         cityNdate.textContent = current_city;
+        weatherImg.src = "http://openweathermap.org/img/wn/" + data.current.weather[0].icon + "@2x.png"; 
         current_city = "";
         temp.textContent = "Temp: " + data.current.temp +"°C";
         wind.textContent = "Wind: " + data.current.wind_speed;
@@ -86,15 +88,6 @@ window.onload = function() {
       })
       .catch(err => console.log(err));
     }
-  //   <div class="card col-2 mx-2 px-0" style="width: 10rem;">
-  //     <div class="card-body">
-  //       <h5 class="card-title">Card title</h5>
-  //       <i class='my-1 fas fa-cloud-rain' style="font-size:24px"></i>
-  //       <h6 class="card-subtitle my-3 text-muted">Temp</h6>
-  //       <h6 class="card-subtitle my-3 text-muted">Wind</h6>
-  //       <h6 class="card-subtitle my-3 text-muted">Humidity</h6>
-  //     </div>
-  //   </div>
 
 
 
@@ -105,6 +98,7 @@ window.onload = function() {
           var card = document.createElement("div");
           var card_body = document.createElement("div");
           var card_date = document.createElement("h5");
+          var card_icon = document.createElement("img");
           var card_temp = document.createElement("h6");
           var card_wind = document.createElement("h6");
           var card_humidity = document.createElement("h6");
@@ -121,6 +115,9 @@ window.onload = function() {
           card_date.textContent = fullDate.getDay()+"/"+fullDate.getMonth()+"/"+fullDate.getFullYear();
           card_date.classList.add("card-title");
           card_body.append(card_date);
+          card_icon.id = "cardicon"+index;
+          card_icon.src = "http://openweathermap.org/img/wn/" + data.daily[index].weather[0].icon + "@2x.png"; 
+          card_body.append(card_icon);
           card_temp.id = "card"+"temp"+index;
           card_temp.textContent = "Temp: " + data.daily[index].temp.day +" °C";
           card_temp.classList.add("card-subtitle");
@@ -146,9 +143,11 @@ window.onload = function() {
           var carddate = document.querySelector("#carddate"+index);
           var cardtemp = document.querySelector("#cardtemp"+index);
           var cardwind = document.querySelector("#cardwind"+index);
+          var cardicon = document.querySelector("#cardicon"+index);
           var cardhumidity = document.querySelector("#cardhumidity"+index);
           let fullDate = new Date(data.daily[index].dt*1000);      
           carddate.textContent = fullDate.getDay()+"/"+fullDate.getMonth()+"/"+fullDate.getFullYear();
+          cardicon.src = "http://openweathermap.org/img/wn/" + data.daily[index].weather[0].icon + "@2x.png"; 
           cardtemp.textContent = "Temp: " + data.daily[index].temp.day +" °C";
           cardwind.textContent = "Wind: " + data.daily[index].wind_speed + " MPH";
           cardhumidity.textContent = "UV Index: " + data.daily[index].humidity + " %";
