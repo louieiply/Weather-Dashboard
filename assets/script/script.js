@@ -14,22 +14,25 @@ window.onload = function() {
     var sample_city;
     var search;
     var current_city = "";
+    var counter = 0;
+    let localStorageLength = 0;
     var current_lon = null;
     var current_lat = null;
     baseURL = "https://api.openweathermap.org/geo/1.0/direct?q=";
     query = "&limit=1&appid=2abfa3b21cf857688674d3c35b5dc15a";
 
 
-    var CheckLocalStorage = function(){
+    var CheckLocalStorage = async function(){
       if(localStorage.getItem("history") == null || localStorage.getItem("history") == ""){
           return;
         }
       else{
         sample_city = JSON.parse(localStorage.getItem("history"));
+        localStorageLength = sample_city.length;
         for (let index = 0; index < sample_city.length; index++) {
           const element = sample_city[index];
           var finalURL = baseURL + element + query;
-          getFirstData(finalURL);
+          await getFirstData(finalURL);
         }
       }
     }
@@ -55,11 +58,32 @@ window.onload = function() {
             button.classList.add("btn");
             button.classList.add("btn-dark");
             button.classList.add("col-12");
+            button.dataset.lon = data[0].lon;
+            button.dataset.lat = data[0].lat;
             button.setAttribute("value",data[0].name);
             button.textContent = data[0].name;
             current_city =  data[0].name;
             current_lon = data[0].lon;
             current_lat = data[0].lat;
+            button.addEventListener("click",function(e){
+              e.stopPropagation();
+              e.preventDefault();
+              getDetailedData(e.target.dataset.lon,e.target.dataset.lat);
+              current_city = e.target.value;
+            });
+            counter++;
+            if(counter > localStorageLength){
+              if(localStorage.getItem("history") == null || localStorage.getItem("history") == ""){
+                var list = [data[0].name];
+                localStorage.setItem("history",JSON.stringify(list));
+              }
+              else{
+                var list = JSON.parse(localStorage.getItem("history"));
+                list.push(data[0].name);
+                console.log(list);
+                localStorage.setItem("history",JSON.stringify(list));
+              }
+            }
           }
         })
         .catch(err => {
@@ -79,7 +103,6 @@ window.onload = function() {
         console.log(data);
         cityNdate.textContent = current_city;
         weatherImg.src = "http://openweathermap.org/img/wn/" + data.current.weather[0].icon + "@2x.png"; 
-        current_city = "";
         temp.textContent = "Temp: " + data.current.temp +"°C";
         wind.textContent = "Wind: " + data.current.wind_speed;
         humidity.textContent = "Humidity: " + data.current.humidity + " %";
@@ -162,11 +185,13 @@ window.onload = function() {
      CheckLocalStorage();
 
 
+
+
      search_city.addEventListener("click", async function(e){
       debugger;
       e.preventDefault();
       e.stopPropagation();
-      console.log(JSON.stringify(search_input.value)); 
+      // console.log(JSON.stringify(search_input.value));
       if(search_input.value.replace(" ","") == ""){
         return;
       }
@@ -178,10 +203,7 @@ window.onload = function() {
         debugger;
         if(current_lon !== null && current_lat !== null){
           debugger;
-        await  getDetailedData(current_lon,current_lat);
-        }
-        else{
-          alert("error");
+        await getDetailedData(current_lon,current_lat);
         }
       }
 
