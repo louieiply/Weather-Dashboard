@@ -17,20 +17,33 @@
 <div class="container" id="outer-container">
     <div class="container" id="city-container">
       <div class="row justify-content-center" id="city">
-        <div class="col-6 text-center" id="city-row">
+        <div class="col-4 text-center" id="city-row">
           <h2 class="text-start"><b>Search for a City:</b></h2>
           <div class="input-group">
             <input type="text" class="search form-control form-control-lg" id="city-search" placeholder="Hong Kong"></input>
           </div>
-          <button type="button" class=" d-grid gap-2 btn btn-dark col-12 ">Search</button>
+          <button type="button" id="search" class=" d-grid gap-2 btn btn-dark col-12 ">Search</button>
           <hr>
-          
-          <!-- <a type="button" class="btn btn-dark col-12 ">Dark</a>
-          <a type="button" class="btn btn-dark col-12 mx-auto">Dark</a>
-          <a type="button" class="btn btn-dark col-12 mx-auto">Dark</a> -->
+        </div>
+        <div class="col-8" id="detailed">
+          <div class="row justify-content-center">
+            <div class="col-12 mb-3" id="display-panel" style=" border:1px solid;">
+              <h2><b  id="cityNdate">City Name</b></h2>
+              <h5 id="temp">Temp:</h5>
+              <h5 id="wind">Wind:</h5>
+              <h5 id="humidity">Humidity:</h5>
+              <h5 id="uv">UV Index:</h5>
+            </div>
+            <div class="col-12" id="Weather-cards">
+              <h4><b  id="title">5-Day Forecast</b></h4>
+              
+            </div>
+            
+          </div>
         </div>
       </div>
     </div>
+
 </div>
     
 </body>

@@ -15,3 +15,7 @@
 h2{
     font-weight: 400;
 }
+#display-panel  *{
+    margin-top: 1rem !important;
+
+}
