@@ -36,6 +36,6 @@ Weather dashboard allows you to get more information about weather forecast of t
 
 ## Deployed Link
 
-https://louieiply.github.io/Weather-Dashboard/
+https://louieiply.github.io/Weather-Dashboard/home.html
 
 
