@@ -34,11 +34,13 @@ window.onload = function() {
           var finalURL = baseURL + element + query;
           await getFirstData(finalURL);
         }
+        
       }
     }
 
       async function getFirstData(url){
-       await fetch(url)
+        var result = null;
+        await fetch(url)
         .then((response) => { 
           console.log(response);
           return(response.json());})
@@ -58,6 +60,7 @@ window.onload = function() {
             button.classList.add("btn");
             button.classList.add("btn-dark");
             button.classList.add("col-12");
+            button.classList.add("history-btn");
             button.dataset.lon = data[0].lon;
             button.dataset.lat = data[0].lat;
             button.setAttribute("value",data[0].name);
@@ -71,8 +74,21 @@ window.onload = function() {
               getDetailedData(e.target.dataset.lon,e.target.dataset.lat);
               current_city = e.target.value;
             });
+            var templength = JSON.parse(localStorage.getItem("history"));
+            // alert(templength.length);
+
+            result = data[0].name;
             counter++;
             if(counter > localStorageLength){
+              if(templength.length >= 10){
+                var list = JSON.parse(localStorage.getItem("history"));
+                list.splice(0,1);
+                console.log(list);
+                localStorage.setItem("history",JSON.stringify(list));
+                var firstButton = document.querySelector(".history-btn");
+                firstButton.remove();
+              }
+
               if(localStorage.getItem("history") == null || localStorage.getItem("history") == ""){
                 var list = [data[0].name];
                 localStorage.setItem("history",JSON.stringify(list));
@@ -90,7 +106,7 @@ window.onload = function() {
           console.log(err);
           
         });
-        
+        return result;
       }
 
 
@@ -199,8 +215,9 @@ window.onload = function() {
         search = search_input.value; 
         search_input.value = null;
         var finalUrl = baseURL+search+query;
-        await getFirstData(finalUrl);
+        var result = await getFirstData(finalUrl);
         debugger;
+
         if(current_lon !== null && current_lat !== null){
           debugger;
         await getDetailedData(current_lon,current_lat);
